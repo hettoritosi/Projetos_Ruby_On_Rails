@@ -1,0 +1,31 @@
+<% if !@import_file.errors.empty? %>
+   <div class = "alert alert-error">
+      
+      <ul>
+         <% @import_file.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+         <% end %>
+      </ul>
+      
+   </div>
+<% end %>
+
+<div class = "upload">
+   <%= form_for @import_file, html: { multipart: true } do |f| %>
+   
+      <%= f.label :attachment, 'Upload do Arquivo' %>
+      
+      <%= f.file_field :attachment %>
+      
+      <%= f.submit "Carregar Arquivo", class: "btn btn-primary" %>
+      
+      
+   <% end %>
+<br>  
+ <p class="bg-danger">Use o arquivo dados.txt disponibilizado nas instruções do desafio para fazer o teste do upload </p>
+                      
+</div>
+
+<br>
+
+<%= link_to 'Voltar', pedidos_path, class: "btn btn-primary"  %>
