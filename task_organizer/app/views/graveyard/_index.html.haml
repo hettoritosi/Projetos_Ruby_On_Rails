@@ -1,0 +1,32 @@
+%table.table.table-bordered
+  %thead
+    %tr
+      %th= sortable "title", "Título"
+      %th Categoria
+      %th Conteúdo
+      %th= sortable "user_id", "Criado por"
+      %th= sortable "user_id", "Responsável"
+      %th= sortable "created_at", "Criado em"
+      %th= sortable "updated_at", "Encerrado em"
+      %th= sortable "status_id", "Status"
+      %th= sortable "", "Finalizado em"
+      %th{:colspan => "3"}
+  %tbody{:id => "all_improvements"}
+  - improvements.each do |improvement|
+    %tr{:class => improvement.status ? improvement.status.get_class : 1 }
+      %td= improvement.title
+      %td= improvement.category
+      %td= improvement.content
+      %td= improvement.name
+      %td= improvement.responsible.name
+      %td= improvement.created_at.to_datetime.strftime("%d/%m/%Y %H:%M")
+      %td= improvement.updated_at.to_datetime.strftime("%d/%m/%Y %H:%M")
+      %td= improvement.status.name
+      %td= distance_of_time_in_words(improvement.updated_at, improvement.created_at) 
+      %form
+      
+      %td
+        =link_to 'Exibir', improvement, class: "btn btn-primary btn-go btn-table"
+        - if current_user.id == improvement.user_id || current_user.admin?
+          = link_to 'Editar', edit_improvement_path(improvement), class: "btn btn-primary btn-go btn-table"
+          = link_to 'Deletar', improvement, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary btn-go btn-table"
